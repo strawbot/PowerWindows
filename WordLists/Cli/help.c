@@ -55,6 +55,8 @@ void help(void) {
     printif("[  [i]  exit macro mode\n");
     printif("]   enter macro mode\n");
     printif("abs   ( n - n|-n) top data stack item is made positive\n");
+    printif("ackcmd   send ack active command\n");
+    printif("ackrsp   send ack active reponse\n");
     printif("again  [i]  end of a continuous loop construct\n");
     printif("allot   ( n - ) reserve n bytes after end of dictionary\n");
     printif("and   ( n m - p ) bitwise AND top two data stack items and leave on top\n");

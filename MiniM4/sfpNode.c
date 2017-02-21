@@ -7,7 +7,6 @@
 #include "stats.h"
 #include "services.h"
 
-void sfpUartLinkMachine(void);
 void initSfpUart(void);
 void initVersion(void);
 void serviceSfpUart(void);

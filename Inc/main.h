@@ -4,7 +4,7 @@
   * Description        : This file contains the common defines of the application
   ******************************************************************************
   *
-  * Copyright (c) 2016 STMicroelectronics International N.V. 
+  * Copyright (c) 2017 STMicroelectronics International N.V. 
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -53,8 +53,24 @@
 
 #define RedLed_Pin GPIO_PIN_13
 #define RedLed_GPIO_Port GPIOC
+#define PORT2_12V_Pin GPIO_PIN_0
+#define PORT2_12V_GPIO_Port GPIOA
+#define PORT2_SENSE_Pin GPIO_PIN_1
+#define PORT2_SENSE_GPIO_Port GPIOA
+#define SDI12_TX2_Pin GPIO_PIN_2
+#define SDI12_TX2_GPIO_Port GPIOA
+#define SDI12_RX2_Pin GPIO_PIN_3
+#define SDI12_RX2_GPIO_Port GPIOA
+#define PORT1_12V_Pin GPIO_PIN_11
+#define PORT1_12V_GPIO_Port GPIOB
+#define PORT1_SENSE_Pin GPIO_PIN_15
+#define PORT1_SENSE_GPIO_Port GPIOB
 #define YellowLed_Pin GPIO_PIN_12
 #define YellowLed_GPIO_Port GPIOC
+#define SDI12_TX1_Pin GPIO_PIN_6
+#define SDI12_TX1_GPIO_Port GPIOB
+#define SDI12_RX1_Pin GPIO_PIN_7
+#define SDI12_RX1_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

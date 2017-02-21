@@ -11,6 +11,7 @@ void timbreTalk(void);
 void timbreTalkMachine(void);
 void DOT_PROMPT(void);
 void initWaveforms(void);
+void initSdi12(void);
 
 void initApp(void)
 {
@@ -25,5 +26,6 @@ void initApp(void)
     showVersion();
  	DOT_PROMPT();
 	initWaveforms();
+	initSdi12();
 }
 

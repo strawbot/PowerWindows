@@ -8,8 +8,6 @@
 #ifndef _PARAMETERS_H_
 #define _PARAMETERS_H_
 
-#define NUM_LINKS 2				// number of links in this node
-
 #include <libarm.h>
 
 #define intDisable()  libarm_disable_irq_fiq() 	// Disable Interrupts

@@ -5,7 +5,7 @@
   *                      of the USART instances.
   ******************************************************************************
   *
-  * Copyright (c) 2016 STMicroelectronics International N.V. 
+  * Copyright (c) 2017 STMicroelectronics International N.V. 
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -56,6 +56,8 @@
 
 /* USER CODE END Includes */
 
+extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart3;
 
 /* USER CODE BEGIN Private defines */
@@ -64,6 +66,8 @@ extern UART_HandleTypeDef huart3;
 
 extern void Error_Handler(void);
 
+void MX_USART1_UART_Init(void);
+void MX_USART2_UART_Init(void);
 void MX_USART3_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */

@@ -47,6 +47,7 @@
     <configuration Name="RAM" target_reset_script="Reset()" />
     <folder Name="Source Files">
       <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
+      <file file_name="../Src/system_stm32f4xx.c" />
     </folder>
     <folder Name="System Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
@@ -91,7 +92,6 @@
       </folder>
       <folder Name="CMSIS">
         <file file_name="" />
-        <file file_name="./../Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c" />
       </folder>
     </folder>
     <folder Name="Application">
@@ -183,6 +183,12 @@
       <configuration Name="THUMB Debug" build_exclude_from_build="No" />
     </file>
     <file file_name="../MiniM4/sfpNode.c">
+      <configuration Name="THUMB Debug" build_exclude_from_build="No" />
+    </file>
+    <file file_name="../sdi12.c">
+      <configuration Name="THUMB Debug" build_exclude_from_build="Yes" />
+    </file>
+    <file file_name="../sdi12.cpp">
       <configuration Name="THUMB Debug" build_exclude_from_build="No" />
     </file>
   </project>

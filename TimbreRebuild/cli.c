@@ -35,6 +35,8 @@ Headless(branch);
 Headless(zeroBranch);
 Headless(minusBranch);
 Headless(tor);
+Headless(count);
+Headless(type);
 
 // data stack
 Cell ret(void)  /* m - */
@@ -253,12 +255,16 @@ Cell align(Cell p)  /* a -- a' */
 	return (p + z) & ~z;
 }
 
+void aligned(void)
+{
+	hp = (Byte *)align((Cell)hp);
+}
+
 void comma(void)  /* n -- */
 {
 	Cell top = popq(dataStack);
 	Cell * p = (Cell *)hp;
-
-	hp = (Byte *)align((Cell)hp);
+	aligned();
 	*p = top;
 	hp += sizeof(Cell);
 }
@@ -927,69 +933,6 @@ void interpret(void)
 	}
 }
 
-// input stream
-void emptyKeyq(void)
-{
-	zerobq(keyq);
-}
-
-void autoEchoOn(void) // echo keys back
-{
-	keyEcho = autoecho = 1;
-}
-
-void autoEchoOff(void) // don't echo keys back
-{
-	keyEcho = autoecho = 0;
-}
-
-void collectKeys(void)
-{
-	if (qbq(keyq) == 0)
-		return;
-	
-	Byte echo = keyEcho;
-	Byte key = pullbq(keyq);
-
-	switch (key) {
-	case LFEED: // ignore line feeds
-		return;
-	case BSPACE:
-	case DELETE: // backspace or delete
-		if (tib.in != 0)
-			tib.in -= 1;
-		else
-			key = BEEP;
-		break;
-	case CRETURN:
-	case 0:  // a cursor return
-		keyEcho = autoecho;
-		key = 0;
-		tib.buffer[tib.in] = key;
-		outp = 0;
-		if (echo)
-			spaces(1);
-		zeroTib();
-		interpret();
-		zeroTib();
-		tib.buffer[tib.in] = 0;
-		dotPrompt();
-		return;
-	default:
-		if ( key < ESCAPE )
-			key = BEEP;
-		else if ( tib.in < LINE_LENGTH ) { // check in not out!
-			tib.buffer[tib.in] = key;
-			tib.in++;
-		}
-		else
-			key = BEEP;
-	}
-
-	if (keyEcho)
-		emitByte(key);
-}
-
 // control flow
 void compileAhead(void)
 {
@@ -1071,4 +1014,162 @@ void compileExit(void)
 	comma();
 }
 
-// TODO: group by function; factor out magic numbers; improve names; reduce coupling so CLI can ignore parts; static functions
+// strings
+void makeString(char c)
+{
+	parse(c);
+	here();
+	dup();
+	byteFetch();
+	lit(1);
+	plusOp();
+	allot();
+	aligned();
+}
+
+void quote(void)
+{
+	if (compiling)
+		compileAhead();
+	makeString('"');
+	if (compiling) {
+		swap();
+		compileEndif();
+		literal(ret());
+	}
+}
+
+// input stream
+void emptyKeyq(void)
+{
+	zerobq(keyq);
+}
+
+void autoEchoOn(void) // echo keys back
+{
+	keyEcho = autoecho = 1;
+}
+
+void autoEchoOff(void) // don't echo keys back
+{
+	keyEcho = autoecho = 0;
+}
+
+void collectKeys(void)
+{
+	if (qbq(keyq) == 0)
+		return;
+
+	Byte echo = keyEcho;
+	Byte key = pullbq(keyq);
+
+	switch (key) {
+	case LFEED: // ignore line feeds
+		return;
+	case BSPACE:
+	case DELETE: // backspace or delete
+		if (tib.in != 0)
+			tib.in -= 1;
+		else
+			key = BEEP;
+		break;
+	case QUOTE:
+
+	case CRETURN:
+	case 0:  // a cursor return
+		keyEcho = autoecho;
+		key = 0;
+		tib.buffer[tib.in] = key;
+		outp = 0;
+		if (echo)
+			spaces(1);
+		zeroTib();
+		interpret();
+		zeroTib();
+		tib.buffer[tib.in] = 0;
+		dotPrompt();
+		return;
+	default:
+		if ( key < ESCAPE )
+			key = BEEP;
+		else if ( tib.in < LINE_LENGTH ) { // check in not out!
+			tib.buffer[tib.in] = key;
+			tib.in++;
+		}
+		else
+			key = BEEP;
+	}
+
+	if (keyEcho)
+		emitByte(key);
+}
+
+// defining words
+void makeName(void)
+{
+	Byte length = *hp + 1;
+
+	*hp |= NAME_BITS;
+	hp += length;
+}
+
+void makeHeader(void)
+{
+	aligned();
+	here();
+	lit((Cell)wordlist);
+	comma();
+	wordlist = (header *)ret();
+	parseWord(SPACE);
+	makeName();
+	aligned();
+}
+
+void smudge(void)
+{
+	wordlist->name[0] |= SMUDGE_BITS;
+}
+
+void recursive(void)  /* -- */
+{
+	wordlist->name[0] &= ~SMUDGE_BITS;
+}
+
+void colon(void)  /* -- */
+{
+	makeHeader();
+	smudge();
+	lit((Cell)colonii);
+	comma();
+	righBracket();
+}
+
+void semiColon(void)  /* -- */
+{
+	compileExit();
+	recursive();
+	leftBracket();
+}
+
+void constant(void)  /* n -- */
+{
+	makeHeader();
+	lit((Cell)cii);
+	comma();
+	comma();
+}
+
+void create(void)  /* -- */
+{
+	makeHeader();
+	lit((Cell)vii);
+	comma();
+}
+
+void variable(void)  /* n -- */
+{
+	create();
+	comma();
+}
+
+// TODO: group by function; factor out magic numbers; improve names; reduce coupling so CLI can ignore parts; static functions; float support

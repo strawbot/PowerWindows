@@ -25,6 +25,8 @@
 #define LFEED 10
 #define CRETURN 13
 #define ESCAPE 27
+#define SPACE 32
+#define QUOTE 34
 #define DELETE 127
 
 // Header bits

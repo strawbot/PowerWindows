@@ -4,7 +4,7 @@
   * Description        : Main program body
   ******************************************************************************
   *
-  * Copyright (c) 2016 STMicroelectronics International N.V. 
+  * Copyright (c) 2017 STMicroelectronics International N.V. 
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -97,6 +97,8 @@ int main(void)
   MX_TIM7_Init();
   MX_DAC_Init();
   MX_TIM2_Init();
+  MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
  

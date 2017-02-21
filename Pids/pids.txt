@@ -38,4 +38,4 @@
 	SFP_FRAME_TIME		(50)	maximum time to wait between bytes for a frame
 	SFP_FRAME_PROCESS	(1000)	maximum time to wait for frame processing
 	STALE_RX_FRAME 		(1000)	number of milliseconds to hang onto a received frame
-
+	NUM_LINKS 			(1)		number of links in this node

@@ -1,9 +1,7 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints>
-  <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault" />
- </Breakpoints>
+ <Breakpoints/>
  <ExecutionProfileWindow/>
  <FrameBufferWindow>
   <FrameBufferWindow addressText="" bufferWidth="-1" bufferHeight="-1" addressSpace="" />
@@ -104,14 +102,15 @@
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../sinewave.c" y="103" path="../sinewave.c" left="0" selected="0" name="unnamed" top="66" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/kernel.c" y="1070" path="../Timbre/kernel.c" left="0" selected="0" name="unnamed" top="1045" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c" y="304" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c" left="0" selected="0" name="unnamed" top="291" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/node.c" y="64" path="../SFP/node.c" left="0" selected="0" name="unnamed" top="39" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/node.c" y="43" path="../SFP/node.c" left="0" selected="0" name="unnamed" top="39" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/services.h" y="17" path="../SFP/services.h" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/copyRun.c" y="0" path="../Timbre/copyRun.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../uartSfp.c" y="5" path="../uartSfp.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../MiniM4/sfpNode.c" y="30" path="../MiniM4/sfpNode.c" left="0" selected="0" name="unnamed" top="33" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="" x="0" debugPath="../Timbre/timeout.c" y="13" path="../Timbre/timeout.c" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="34" debugPath="../uartSerial.c" y="65" path="../uartSerial.c" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../MiniM4/devices.h" y="8" path="../MiniM4/devices.h" left="0" selected="1" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/timeout.c" y="13" path="../Timbre/timeout.c" left="0" selected="0" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../uartSerial.c" y="65" path="../uartSerial.c" left="0" selected="0" name="unnamed" top="46" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../MiniM4/devices.h" y="8" path="../MiniM4/devices.h" left="0" selected="0" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../who.h" y="10" path="../who.h" left="0" selected="1" name="unnamed" top="0" />
  </Files>
  <ARMCrossStudioWindow activeProject="PowerWindows" autoConnectTarget="ST-LINK/V2" debugSearchFileMap="" fileDialogInitialDirectory="/Users/robchapm/TimbreWorks/Projext/PowerWindows/MiniM4" fileDialogDefaultFilter="*.txt;*.log" autoConnectCapabilities="266111" debugSearchPath="" buildConfiguration="THUMB Debug" />
 </session>

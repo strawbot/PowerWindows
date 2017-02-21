@@ -3,7 +3,7 @@
   <project Name="Update PIDs">
     <configuration
       Name="Common"
-      build_always_rebuild="No"
+      build_always_rebuild="Yes"
       combine_command="python ../Pids/parsepids.py"
       combine_output_filepath="../pids.h"
       project_directory=""
@@ -14,7 +14,7 @@
   <project Name="Update CPU ids">
     <configuration
       Name="Common"
-      build_always_rebuild="No"
+      build_always_rebuild="Yes"
       combine_command="python ../Who/parsecpuids.py"
       combine_command_wd="$(ProjectDir)"
       combine_output_filepath="../who.h"

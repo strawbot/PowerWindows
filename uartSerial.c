@@ -63,13 +63,13 @@ void initTalkPort(void)
 	link->linkIn = uartLinkIn;
 	link->linkOut = uartLinkOut;
 	link->linkEmpty = serialEmpty;
-	link->port = huart = &SERIAL_UART;
+	link->port = &SERIAL_UART;
 	
 	/* Enable the UART Error Interrupt: (Frame error, noise error, overrun error) */
-	SET_BIT(huart->Instance->CR3, USART_CR3_EIE);
+	SET_BIT(SERIAL_UART.Instance->CR3, USART_CR3_EIE);
 
 	/* Enable the UART Parity Error and Data Register not empty Interrupts */
-	SET_BIT(huart->Instance->CR1, USART_CR1_PEIE | USART_CR1_RXNEIE);
+	SET_BIT(SERIAL_UART.Instance->CR1, USART_CR1_PEIE | USART_CR1_RXNEIE);
 
 	activateOnce(serialMachine);
 }

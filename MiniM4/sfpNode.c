@@ -8,11 +8,13 @@
 #include "services.h"
 
 void initSfpUart(void);
+void initSfpUsb(void);
 void initVersion(void);
 void serviceSfpUart(void);
 
 sfpNode_t myNode;
 extern sfpLink_t uartLink;
+extern sfpLink_t usbLink;
 
 /*
 Factor uart.c and network.c into one file but pull out the differences for the serial and sfp builds and put in separate files under board subfolders
@@ -43,6 +45,9 @@ void initTalkPort(void)
     initFramePool();
 
  	// initialize links
+ 	sfpLink_t * link = &uartLink;
+
+//	initSfpUsb();
 	initSfpUart();
 	initVersion();
 	initTalkHandler();
@@ -52,7 +57,7 @@ void initTalkPort(void)
     
     activateOnce(sfpMachine);
 
-	addLink(0, &uartLink); // attached links
-	setRouteTo(DIRECT, &uartLink);
-    setRouteTo(MAIN_HOST, &uartLink); // routes for other nodes
+	addLink(0, link); // attached links
+	setRouteTo(DIRECT, link);
+    setRouteTo(MAIN_HOST, link); // routes for other nodes
 }

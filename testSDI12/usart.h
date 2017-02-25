@@ -23,8 +23,8 @@ typedef struct {
 #define READ_REG(reg) (reg)
 #define SET_BIT(reg, bit) reg |= bit
 
-#define HAL_UART_Transmit(port, address, length, time)
-#define HAL_LIN_SendBreak(port)
+#define HAL_UART_Transmit(p, a, l, t) { (void)(p); (void)(a); (void)(l); (void)(t); }
+#define HAL_LIN_SendBreak(port) (void)port
 
 #define PORT1_SENSE_GPIO_Port (GPIO_TypeDef *)nullptr
 #define PORT1_SENSE_Pin 0

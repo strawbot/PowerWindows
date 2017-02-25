@@ -14,6 +14,7 @@ void safe_emit(Byte c);
 
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart4;
 
 #define CR 13
 #define LF 10
@@ -26,76 +27,76 @@ public:
 	
     BQUEUE(75, rxq);
 	BQUEUE(1, breaks);
-	Timeout portTo;
 	
-    Port (UART_HandleTypeDef * u) : uart(u) {}
+    Port (UART_HandleTypeDef * u) : uart(u) { }
 
-    bool portPower () { return true; }
+    bool portPower () { return true; } // maybe these two should be part of sensor since they will also be different for device
+    void portSense(bool present);
 	void pushRx (Byte rx) { pushbq(rx, rxq); }
 
+    void sendBreak () { HAL_LIN_SendBreak(uart); }
 	bool portBreak () { return qbq(breaks) != 0; }
 	void setPortBreak () { pushbq(0, breaks); }
 	void clearPortBreak () { zerobq(breaks); }
 
+    void sendData (Byte * data, Byte length);
+	void init() {
+		SET_BIT(uart->Instance->CR1, USART_CR1_RXNEIE);
+        SET_BIT(uart->Instance->CR2, USART_CR2_LINEN);
+        SET_BIT(uart->Instance->CR2, USART_CR2_LBDIE);
+    }
+
+
 public:
-	void portInterrupt ();
+    void portInterrupt ();
 };
+
+// Port members
+void Port::sendData (Byte * data, Byte length)
+{
+    HAL_UART_Transmit(uart, data, length, length * 2 * CHAR_TIME);
+}
 
 void Port::portInterrupt () {
-	uint32_t flags = READ_REG(uart->Instance->SR);
+    uint32_t flags = READ_REG(uart->Instance->SR);
 
-	if (flags & USART_SR_RXNE)
-		pushRx(uart->Instance->DR & 0x7F);
-
-	if (flags & USART_SR_LBD) {
-  		uart->Instance->SR = flags & ~USART_SR_LBD;
-		if (!portBreak())
-			setPortBreak();
+    if (flags & USART_SR_RXNE) {
+		Byte rx = uart->Instance->DR & 0x7F;
+		if (0 == (flags & (USART_SR_FE | USART_SR_PE | USART_SR_NE | USART_SR_ORE)))
+			pushRx(rx);
 	}
+    if (flags & USART_SR_LBD) {
+        uart->Instance->SR = flags & ~USART_SR_LBD;
+        if (!portBreak())
+            setPortBreak();
+    }
 }
 
-// Declare ports
-Port port1 = {&huart1};
-Port port2 = {&huart2};
-
-// External interrupt calls
-extern "C" void port1Interrupt()
-{
-	port1.portInterrupt();
-}
-
-extern "C" void port2Interrupt()
-{
-	port2.portInterrupt();
-}
-
-// SDI-12 Class: used to implement a sensor or device
-//class Sdi12 {
-//public:
-//	Port * port;
-//};
-
-//class Device : Sdi12 {
-//	Byte command[2] = {0, '!'};
-//	enum { SEND_BREAK, SEND_COMMAND } state = SEND_BREAK;
-//};
-
-// Sensor Class: sensors are given an address and bound to a specific port
-//class Sensor : public Sdi12 {
+// Sensor class: sensors are given an address and bound to a specific port
+// need to consider the case of multiple sensors on the same port. Address will determine who talks. If ?! is sent, then they all talk
+// but their values will all have to be combined first. So we will need a port driver that can do that. So no longer do we call HAL directly
+// but instead through the port.
 class Sensor {
     Port * port;
-	Byte address;
-	enum {OFF, BREAK, MARK, ADDRESS, COMMAND, RESPONSE} state;
-    Byte response[4];
-    Byte length;
+    Byte address;
+    enum {OFF, BREAK, MARK, ADDRESS, COMMAND, RESPONSE} state;
+    Byte response[45];
+    Timeout sto;
 
 public:
-    Sensor (Port * p, Byte a) : address(a) { port = p; state = OFF; }
-	void parseCommand();
-
-public:
-	void stateMachine();
+    Sensor (Port * p, Byte a) : port(p), address(a) { state = OFF; }
+    void parseCommand();
+    void stateMachine();
+    void sendResponse();
 };
+
+// Sensor members
+void Sensor::sendResponse() {
+    response[0] = address;
+    response[1] = CR;
+    response[2] = LF;
+    port->sendData(response, 3);
+}
 
 void Sensor::parseCommand() {
     if (qbq(port->rxq) == 0)
@@ -103,20 +104,16 @@ void Sensor::parseCommand() {
 
     switch(pullbq(port->rxq)) {
 	case '!':
-		state = RESPONSE;
-		response[0] = address;
-		response[1] = CR;
-		response[2] = LF;
-		length = 3;
-        setTimeout(9 TO_MSECS, &port->portTo);
-		break;
+        setTimeout(9 TO_MSECS, &sto);
+        state = RESPONSE;
+        break;
 	default:
 		state = OFF;
 		break;
 	}
 }
 
-void Sensor::stateMachine(void)
+void Sensor::stateMachine()
 {
 	if (port->portPower() == 0)
 		state = OFF;
@@ -132,13 +129,13 @@ void Sensor::stateMachine(void)
 		if (port->portBreak()) {
 			port->clearPortBreak();
             zerobq(port->rxq);
-            setTimeout(8 TO_MSECS, &port->portTo);
+            setTimeout(8 TO_MSECS, &sto);
 			state = MARK;
 		}
 		break;
 	case MARK:
-        if (checkTimeout(&port->portTo)) {
-            setTimeout(100 TO_MSECS, &port->portTo);
+        if (checkTimeout(&sto)) {
+            setTimeout(100 TO_MSECS, &sto);
 			state = ADDRESS;
 		}
 		else if (port->portBreak())
@@ -153,91 +150,111 @@ void Sensor::stateMachine(void)
 				state = COMMAND;
 			else
 				state = BREAK;
-        } else if (checkTimeout(&port->portTo))
+        } else if (checkTimeout(&sto))
 			state = OFF;
 		break;
 	case COMMAND:
-        if (checkTimeout(&port->portTo))
+        if (checkTimeout(&sto))
 			state = OFF;
 		else
 			parseCommand();
 		break;
 	case RESPONSE:
-        if (checkTimeout(&port->portTo)) {			
-            HAL_UART_Transmit(port->uart, response, length, length * 2 * CHAR_TIME);
+        if (checkTimeout(&sto)) {
+            sendResponse();
 			state = OFF;
 		}
 		break;
 	}
 }
 
-// declare sensors
-Sensor sensor1 = {&port1, '1'};
-Sensor sensor2 = {&port2, '2'};
+class Device {
+    Port * port;
+    Byte command[38];
+    Timeout markTo;
+    enum { SEND_BREAK, WAIT_MARK, SEND_COMMAND } state;
 
-// machines
-void sensor1Machine(void)
+public:
+    Device (Port * p, Byte a) : port(p) { command[0] = a; state = SEND_BREAK; }
+    bool sendCommand();
+    void setCommand(const char * sequence) { strcpy((char *)&command[1], sequence); }
+};
+
+// members
+bool Device:: sendCommand()
 {
-	sensor1.stateMachine();
-	activate(sensor1Machine);
-}
-
-void sensor2Machine(void)
-{
-	sensor2.stateMachine();
-	activate(sensor2Machine);
-}
-
-extern "C" void initSdi12(void)
-{
-	activateOnce(sensor1Machine);
-//	activateOnce(sensor2Machine);
-	
-	SET_BIT(huart1.Instance->CR2, USART_CR2_LINEN);
-	SET_BIT(huart1.Instance->CR1, USART_CR1_RXNEIE);
-	SET_BIT(huart1.Instance->CR2, USART_CR2_LBDIE);
-	
-	SET_BIT(huart2.Instance->CR2, USART_CR2_LINEN);
-	SET_BIT(huart2.Instance->CR1, USART_CR1_RXNEIE);
-	SET_BIT(huart2.Instance->CR2, USART_CR2_LBDIE);
-}
-
-// Device
-static Byte address = '1';
-static Byte command[2] = {0, '!'};
-
-void sendCommand(void)
-{
-    static enum { SEND_BREAK, SEND_COMMAND } state = SEND_BREAK;
-    static Timeout markTo;
-
     switch(state) {
     case SEND_BREAK:
-        HAL_LIN_SendBreak(&huart2);
+        port->sendBreak();
         setTimeout(22 TO_MSECS, &markTo);
-        state = SEND_COMMAND;
+        state = WAIT_MARK;
+        break;;
+    case WAIT_MARK:
+        if (checkTimeout(&markTo))
+            state = SEND_COMMAND;
         break;
     case SEND_COMMAND:
-        if (checkTimeout(&markTo)) {
-            HAL_UART_Transmit(&huart2, command, 2, 100);
-            state = SEND_BREAK;
-            return;
-        }
-        break;
+        port->sendData(command, 2);
+        state = SEND_BREAK;
+        return true;
     }
-    activate(sendCommand);
+    return false;
 }
 
-extern "C" void ackCmd(void)
+
+// Declare ports
+Port port1 = {&huart1};
+Port port2 = {&huart4};
+Port port3 = {&huart2};
+
+extern "C" void uart1Interrupt()
 {
-    command[0] = address;
-    sendCommand();
+    port1.portInterrupt();
 }
 
-extern "C" void ackRsp(void)
+extern "C" void uart2Interrupt()
 {
-    Byte response[3] = {address, CR, LF};
+    port3.portInterrupt();
+}
 
-    HAL_UART_Transmit(&huart1, response, 3, 100);
+extern "C" void uart4Interrupt()
+{
+    port2.portInterrupt();
+}
+
+// declare sensors
+Sensor sensor1 = {&port1, '1'};
+Sensor sensor2 = {&port2, '1'};
+
+void sensor1Machine()
+{
+    sensor1.stateMachine();
+    activate(sensor1Machine);
+}
+
+// declare devices
+Device device1 = {&port3, '1'};
+
+void device1SendCommand() {
+    if (!device1.sendCommand())
+        activate(device1SendCommand);
+}
+
+extern "C" void ackCmd() {
+    device1.setCommand("!");
+    device1SendCommand();
+}
+
+extern "C" void ackRsp() {
+    sensor1.sendResponse();
+}
+
+// init
+extern "C" void initSdi12()
+{
+	port1.init();
+	port2.init();
+	port3.init();
+    activateOnce(sensor1Machine);
 }
 

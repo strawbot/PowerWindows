@@ -25,7 +25,7 @@ void initApp(void)
  	setBuildPrompt();
     showVersion();
  	DOT_PROMPT();
-	initWaveforms();
+	//initWaveforms();
 	initSdi12();
 }
 

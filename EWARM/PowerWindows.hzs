@@ -1,7 +1,10 @@
 <!DOCTYPE CrossStudio_Session_File>
 <session>
  <Bookmarks/>
- <Breakpoints/>
+ <Breakpoints>
+  <BreakpointListItem line="2118" action="" hardwareBreakpoint="" trigger="" useHWbreakpoint="false" group="Breakpoints" type="Breakpoint" state="2" counter="0" isFunctionBreakpoint="false" filename="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c" expression="" />
+  <Exceptions set="MemManage;UsageFault_Coprocessor;UsageFault_CheckingError;UsageFault_StateError;BusFault;ExceptionEntryReturnFault;HardFault" />
+ </Breakpoints>
  <ExecutionProfileWindow/>
  <FrameBufferWindow>
   <FrameBufferWindow addressText="" bufferWidth="-1" bufferHeight="-1" addressSpace="" />
@@ -24,15 +27,22 @@
   <ProjectSessionItem path="PowerWindows;PowerWindows" name="unnamed" />
   <ProjectSessionItem path="PowerWindows;PowerWindows;Application" name="unnamed" />
   <ProjectSessionItem path="PowerWindows;PowerWindows;Application;User" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;PowerWindows;Drivers" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;PowerWindows;Drivers;CMSIS" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;PowerWindows;Drivers;STM32F4xx_HAL_Driver" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;PowerWindows;HAL" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;PowerWindows;Middlewares" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;PowerWindows;Middlewares;USB_Device_Library" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;PowerWindows;Source Files" name="unnamed" />
   <ProjectSessionItem path="PowerWindows;TimbreOS" name="unnamed" />
   <ProjectSessionItem path="PowerWindows;TimbreOS;SFP" name="unnamed" />
   <ProjectSessionItem path="PowerWindows;TimbreOS;SFP;Source Files" name="unnamed" />
-  <ProjectSessionItem path="PowerWindows;Updates" name="unnamed" />
-  <ProjectSessionItem path="PowerWindows;Updates;Update build version" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;TimbreOS;Timbre" name="unnamed" />
+  <ProjectSessionItem path="PowerWindows;TimbreOS;Timbre;Source Files" name="unnamed" />
   <SourceCodeControlLogin password="F9BB6682F5D56822" user="Robert Chapman &lt;timbreworks@me.com>" />
  </Project>
  <Register1>
-  <RegisterWindow openNodes="USART3;USART3/SR;USART3/CR1;USART3/CR2" binaryNodes="" unsignedNodes="" decimalNodes="" octalNodes="" asciiNodes="" visibleNodes="USART3/SR;USART3/DR;USART3/BRR;USART3/CR1;USART3/CR2;USART3/CR3;USART3/GTPR;CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/msp;CPU/psp;CPU/cfbp" name="PowerWindows" />
+  <RegisterWindow openNodes="USART1;USART1/DR;USART2;USART2/CR1;USART2/CR2" binaryNodes="" unsignedNodes="" decimalNodes="" octalNodes="" asciiNodes="" visibleNodes="USART1/SR;USART1/DR;USART1/BRR;USART1/CR1;USART1/CR2;USART1/CR3;USART1/GTPR;USART2/SR;USART2/DR;USART2/BRR;USART2/CR1;USART2/CR2;USART2/CR3;USART2/GTPR" name="PowerWindows" />
  </Register1>
  <Register2>
   <RegisterWindow openNodes="CPU - Current Context" binaryNodes="" unsignedNodes="" decimalNodes="" octalNodes="" asciiNodes="" visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/msp;CPU/psp;CPU/cfbp" name="PowerWindows" />
@@ -48,7 +58,9 @@
   <Trace enabled="Yes" />
  </TraceWindow>
  <Watch1>
-  <Watches active="1" update="Never" />
+  <Watches active="1" update="Twice a Second" >
+   <Watchpoint evalMode="0" linenumber="90" numelements="0" radix="-1" name="huart1.Instance->CR1 == 0x240c" list="" expression="huart1.Instance->CR1 == 0x240c" filename="../sdi12.c" />
+  </Watches>
  </Watch1>
  <Watch2>
   <Watches active="0" update="Never" />
@@ -60,8 +72,8 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/main.c" y="77" path="../Src/main.c" left="0" selected="0" name="unnamed" top="52" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/gpio.c" y="76" path="../Src/gpio.c" left="0" selected="0" name="unnamed" top="27" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/main.c" y="75" path="../Src/main.c" left="0" selected="0" name="unnamed" top="50" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="39" debugPath="../Src/gpio.c" y="98" path="../Src/gpio.c" left="0" selected="0" name="unnamed" top="66" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/sfp.h" y="2" path="../SFP/sfp.h" left="0" selected="0" name="unnamed" top="2" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/version.c" y="5" path="../Timbre/version.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c" y="1279" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c" left="0" selected="0" name="unnamed" top="1248" />
@@ -71,25 +83,25 @@
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/library.c" y="9" path="../Timbre/library.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/localio.c" y="121" path="../Timbre/localio.c" left="0" selected="0" name="unnamed" top="102" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/localio.h" y="18" path="../Timbre/localio.h" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/machines.c" y="64" path="../Timbre/machines.c" left="0" selected="0" name="unnamed" top="39" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/machines.c" y="58" path="../Timbre/machines.c" left="0" selected="0" name="unnamed" top="25" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/Handlers/talkHandler.c" y="70" path="../SFP/Handlers/talkHandler.c" left="0" selected="0" name="unnamed" top="36" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h" y="0" path="../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../hal.c" y="24" path="../hal.c" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/blinkBlink.c" y="73" path="../Timbre/blinkBlink.c" left="0" selected="0" name="unnamed" top="48" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../hal.c" y="23" path="../hal.c" left="0" selected="0" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/blinkBlink.c" y="75" path="../Timbre/blinkBlink.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/tim.c" y="52" path="../Src/tim.c" left="0" selected="0" name="unnamed" top="33" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/stm32f4xx_it.c" y="210" path="../Src/stm32f4xx_it.c" left="0" selected="0" name="unnamed" top="172" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" y="323" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" left="0" selected="0" name="unnamed" top="302" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="11" debugPath="../Src/stm32f4xx_it.c" y="244" path="../Src/stm32f4xx_it.c" left="0" selected="0" name="unnamed" top="189" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" y="329" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" left="0" selected="0" name="unnamed" top="302" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/timestamp.c" y="28" path="../Timbre/timestamp.c" left="0" selected="0" name="unnamed" top="9" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/usart.c" y="0" path="../Src/usart.c" left="0" selected="0" name="unnamed" top="62" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c" y="808" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c" left="0" selected="0" name="unnamed" top="778" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h" y="222" path="../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h" left="0" selected="0" name="unnamed" top="194" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="1" debugPath="../Src/usart.c" y="60" path="../Src/usart.c" left="0" selected="0" name="unnamed" top="105" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="29" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c" y="1534" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c" left="10" selected="0" name="unnamed" top="183" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="8" debugPath="../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h" y="239" path="../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h" left="0" selected="0" name="unnamed" top="194" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h" y="192" path="../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h" left="0" selected="0" name="unnamed" top="151" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../uartLink.h" y="1" path="../uartLink.h" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/link.c" y="20" path="../SFP/link.c" left="0" selected="0" name="unnamed" top="12" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/globals.h" y="12" path="../Timbre/globals.h" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/queue.c" y="25" path="../Timbre/queue.c" left="0" selected="0" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/queue.c" y="21" path="../Timbre/queue.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/link.h" y="61" path="../SFP/link.h" left="0" selected="0" name="unnamed" top="49" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/sfpRxSm.c" y="141" path="../SFP/sfpRxSm.c" left="0" selected="0" name="unnamed" top="119" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="5" debugPath="../SFP/sfpRxSm.c" y="122" path="../SFP/sfpRxSm.c" left="0" selected="0" name="unnamed" top="116" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/services.c" y="312" path="../SFP/services.c" left="0" selected="0" name="unnamed" top="287" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/framePool.c" y="39" path="../SFP/framePool.c" left="0" selected="0" name="unnamed" top="19" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/sfpTxSm.c" y="75" path="../SFP/sfpTxSm.c" left="0" selected="0" name="unnamed" top="57" />
@@ -99,18 +111,26 @@
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/dma.c" y="0" path="../Src/dma.c" left="0" selected="0" name="unnamed" top="32" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c" y="417" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dma.c" left="0" selected="0" name="unnamed" top="398" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/byteq.c" y="43" path="../Timbre/byteq.c" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../sinewave.c" y="103" path="../sinewave.c" left="0" selected="0" name="unnamed" top="66" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="7" debugPath="../sinewave.c" y="7" path="../sinewave.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/kernel.c" y="1070" path="../Timbre/kernel.c" left="0" selected="0" name="unnamed" top="1045" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c" y="304" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c" left="0" selected="0" name="unnamed" top="291" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/node.c" y="43" path="../SFP/node.c" left="0" selected="0" name="unnamed" top="39" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/services.h" y="17" path="../SFP/services.h" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/copyRun.c" y="0" path="../Timbre/copyRun.c" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../uartSfp.c" y="5" path="../uartSfp.c" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../MiniM4/sfpNode.c" y="30" path="../MiniM4/sfpNode.c" left="0" selected="0" name="unnamed" top="33" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/timeout.c" y="13" path="../Timbre/timeout.c" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../uartSerial.c" y="65" path="../uartSerial.c" left="0" selected="0" name="unnamed" top="46" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="5" debugPath="../uartSfp.c" y="14" path="../uartSfp.c" left="0" selected="0" name="unnamed" top="23" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="14" debugPath="../MiniM4/sfpNode.c" y="47" path="../MiniM4/sfpNode.c" left="0" selected="0" name="unnamed" top="11" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/timeout.c" y="6" path="../Timbre/timeout.c" left="0" selected="0" name="unnamed" top="57" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="17" debugPath="../uartSerial.c" y="16" path="../uartSerial.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../MiniM4/devices.h" y="8" path="../MiniM4/devices.h" left="0" selected="0" name="unnamed" top="0" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../who.h" y="10" path="../who.h" left="0" selected="1" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../who.h" y="10" path="../who.h" left="0" selected="0" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="13" debugPath="../sdi12.c" y="8" path="../sdi12.c" left="0" selected="0" name="unnamed" top="78" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="3" debugPath="../MiniM4/initApp.c" y="27" path="../MiniM4/initApp.c" left="0" selected="0" name="unnamed" top="0" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c" y="394" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c" left="0" selected="0" name="unnamed" top="376" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../sdi12.cpp" y="63" path="../sdi12.cpp" left="0" selected="1" name="unnamed" top="102" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/usbd_cdc_if.c" y="266" path="../Src/usbd_cdc_if.c" left="0" selected="0" name="unnamed" top="248" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c" y="828" path="../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c" left="0" selected="0" name="unnamed" top="810" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/usbd_conf.c" y="687" path="../Src/usbd_conf.c" left="0" selected="0" name="unnamed" top="669" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="9" debugPath="../usbSfp.c" y="38" path="../usbSfp.c" left="0" selected="0" name="unnamed" top="2" />
  </Files>
- <ARMCrossStudioWindow activeProject="PowerWindows" autoConnectTarget="ST-LINK/V2" debugSearchFileMap="" fileDialogInitialDirectory="/Users/robchapm/TimbreWorks/Projext/PowerWindows/MiniM4" fileDialogDefaultFilter="*.txt;*.log" autoConnectCapabilities="266111" debugSearchPath="" buildConfiguration="THUMB Debug" />
+ <ARMCrossStudioWindow activeProject="PowerWindows" autoConnectTarget="ST-LINK/V2" debugSearchFileMap="" fileDialogInitialDirectory="/Users/robchapm/TimbreWorks/Projext/PowerWindows" fileDialogDefaultFilter="*.c" autoConnectCapabilities="266111" debugSearchPath="" buildConfiguration="THUMB Debug" />
 </session>

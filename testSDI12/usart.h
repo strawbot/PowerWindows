@@ -19,6 +19,10 @@ typedef struct {
 #define USART_CR2_LBDIE 3
 #define USART_SR_LBD 4
 #define USART_SR_RXNE 5
+#define USART_SR_FE 6
+#define USART_SR_PE 7
+#define USART_SR_NE 8
+#define USART_SR_ORE 9
 
 #define READ_REG(reg) (reg)
 #define SET_BIT(reg, bit) reg |= bit

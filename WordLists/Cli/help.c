@@ -69,6 +69,7 @@ void help(void) {
     printif("constant   ( n - ) give n a name\n");
     printif("count   ( a - a' c ) leave first character and incremented address on stack\n");
     printif("cr   send end of line to output device\n");
+    printif("da   ( a ) set device to address a\n");
     printif("dbg  [v]  set debug level 0 - quiet, 1 state changes, 2 traffic: 2 dbg c!\n");
     printif("decimal   interpret all subsequent numbers as decimal\n");
     printif("drop   ( n - ) throw away the top data stack item\n");
@@ -108,9 +109,13 @@ void help(void) {
     printif("reveal  [i]  allow macro to call itself\n");
     printif("s!   ( h a - ) store next into memory using top as address (16 bit)\n");
     printif("s@   ( a - h ) return contents of memory using top stack item as the address (16 bit)\n");
+    printif("sa   ( a s ) set sensor s address to a\n");
     printif("shift   ( n m - p ) shift n by m bit left for minus and right for positive\n");
     printif("sign   ( n - ) prepend sign to number sequence if n is negative\n");
     printif("sp!   ( ... - ) empty the data stack\n");
+    printif("sp1   ( d )  send data byte out port 1\n");
+    printif("sp2   ( d )  send data byte out port 2\n");
+    printif("sp4   ( d )  send data byte out port 4\n");
     printif("start   note the starting time\n");
     printif("stats   show time statistics on machine loop\n");
     printif("swap   ( n m - m n ) swap top two items on the data stack\n");

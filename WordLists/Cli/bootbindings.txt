@@ -22,4 +22,9 @@ Words
 	
 	ackcmd ackCmd // send ack active command
 	ackrsp ackRsp // send ack active reponse 
+	sa sensorAddress // ( a s ) set sensor s address to a
+	da deviceAddress // ( a ) set device to address a
+	sp1 sendPort1 // ( d )  send data byte out port 1
+	sp2 sendPort2 // ( d )  send data byte out port 2
+	sp4 sendPort4 // ( d )  send data byte out port 4
 End

@@ -42,7 +42,7 @@
   <SourceCodeControlLogin password="F9BB6682F5D56822" user="Robert Chapman &lt;timbreworks@me.com>" />
  </Project>
  <Register1>
-  <RegisterWindow openNodes="USART1;USART1/DR;USART2;USART2/CR1;USART2/CR2" binaryNodes="" unsignedNodes="" decimalNodes="" octalNodes="" asciiNodes="" visibleNodes="USART1/SR;USART1/DR;USART1/BRR;USART1/CR1;USART1/CR2;USART1/CR3;USART1/GTPR;USART2/SR;USART2/DR;USART2/BRR;USART2/CR1;USART2/CR2;USART2/CR3;USART2/GTPR" name="PowerWindows" />
+  <RegisterWindow openNodes="USART1;USART1/DR;USART2;USART2/CR1;USART2/CR2;USART2/CR3;UART4;UART4/DR" binaryNodes="" unsignedNodes="" decimalNodes="" octalNodes="" asciiNodes="" visibleNodes="USART1/SR;USART1/DR;USART1/BRR;USART1/CR1;USART1/CR2;USART1/CR3;USART1/GTPR;USART2/SR;USART2/DR;USART2/BRR;USART2/CR1;USART2/CR2;USART2/CR3;USART2/GTPR;UART4/SR;UART4/DR;UART4/BRR;UART4/CR1;UART4/CR2;UART4/CR3" name="PowerWindows" />
  </Register1>
  <Register2>
   <RegisterWindow openNodes="CPU - Current Context" binaryNodes="" unsignedNodes="" decimalNodes="" octalNodes="" asciiNodes="" visibleNodes="CPU - Current Context/r0;CPU - Current Context/r1;CPU - Current Context/r2;CPU - Current Context/r3;CPU - Current Context/r4;CPU - Current Context/r5;CPU - Current Context/r6;CPU - Current Context/r7;CPU - Current Context/r8;CPU - Current Context/r9;CPU - Current Context/r10;CPU - Current Context/r11;CPU - Current Context/r12;CPU - Current Context/sp(r13);CPU - Current Context/lr(r14);CPU - Current Context/pc(r15);CPU - Current Context/apsr;CPU/r0;CPU/r1;CPU/r2;CPU/r3;CPU/r4;CPU/r5;CPU/r6;CPU/r7;CPU/r8;CPU/r9;CPU/r10;CPU/r11;CPU/r12;CPU/sp(r13);CPU/lr(r14);CPU/pc(r15);CPU/xpsr;CPU/msp;CPU/psp;CPU/cfbp" name="PowerWindows" />
@@ -72,7 +72,7 @@
   <Watches active="0" update="Never" />
  </Watch4>
  <Files>
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/main.c" y="75" path="../Src/main.c" left="0" selected="0" name="unnamed" top="50" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/main.c" y="75" path="../Src/main.c" left="0" selected="1" name="unnamed" top="50" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="39" debugPath="../Src/gpio.c" y="98" path="../Src/gpio.c" left="0" selected="0" name="unnamed" top="66" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../SFP/sfp.h" y="2" path="../SFP/sfp.h" left="0" selected="0" name="unnamed" top="2" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/version.c" y="5" path="../Timbre/version.c" left="0" selected="0" name="unnamed" top="0" />
@@ -92,7 +92,7 @@
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="11" debugPath="../Src/stm32f4xx_it.c" y="244" path="../Src/stm32f4xx_it.c" left="0" selected="0" name="unnamed" top="189" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" y="329" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" left="0" selected="0" name="unnamed" top="302" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/timestamp.c" y="28" path="../Timbre/timestamp.c" left="0" selected="0" name="unnamed" top="9" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="1" debugPath="../Src/usart.c" y="60" path="../Src/usart.c" left="0" selected="0" name="unnamed" top="105" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="1" debugPath="../Src/usart.c" y="60" path="../Src/usart.c" left="0" selected="0" name="unnamed" top="57" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="29" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c" y="1534" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c" left="10" selected="0" name="unnamed" top="183" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="8" debugPath="../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h" y="239" path="../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h" left="0" selected="0" name="unnamed" top="194" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h" y="192" path="../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h" left="0" selected="0" name="unnamed" top="151" />
@@ -126,7 +126,7 @@
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="13" debugPath="../sdi12.c" y="8" path="../sdi12.c" left="0" selected="0" name="unnamed" top="78" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="3" debugPath="../MiniM4/initApp.c" y="27" path="../MiniM4/initApp.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c" y="394" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c" left="0" selected="0" name="unnamed" top="376" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../sdi12.cpp" y="63" path="../sdi12.cpp" left="0" selected="1" name="unnamed" top="102" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="1" debugPath="../sdi12.cpp" y="298" path="../sdi12.cpp" left="0" selected="0" name="unnamed" top="264" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/usbd_cdc_if.c" y="266" path="../Src/usbd_cdc_if.c" left="0" selected="0" name="unnamed" top="248" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c" y="828" path="../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c" left="0" selected="0" name="unnamed" top="810" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/usbd_conf.c" y="687" path="../Src/usbd_conf.c" left="0" selected="0" name="unnamed" top="669" />

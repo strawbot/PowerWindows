@@ -9,6 +9,8 @@ extern "C" {
 #include "kernel.h"
 #include "usart.h"
 #include "printers.h"
+
+#include <stdio.h>
 }
 
 void safe_emit(Byte c);
@@ -21,8 +23,11 @@ extern UART_HandleTypeDef huart4;
 #define LF 10
 #define CHAR_TIME 9 // > 8.333ms per character
 
+bool monitor = false;
+
 void printxx(Byte who, Byte i, Byte x) {
-    printChar(who), printnDec(0, i), print(":<"), printnHex(2, x), print("> ");;
+    if (monitor)
+        printChar(who), printnDec(0, i), print(":<"), printnHex(2, x), print("> ");;
 }
 
 // Port Class: bind port object to a UART and GPIO for sense and power
@@ -93,38 +98,63 @@ void Port::portInterrupt () {
 class Sensor {
     Port * port;
     enum {OFF, BREAK, MARK, ADDRESS, COMMAND, RESPONSE} state;
-    Byte response[45];
+    enum {NONE, CONTINUOUS } command;
     Timeout sto;
 
 public:
+    float measurement[10];
+    Byte response[45];
     Byte address;
-    Sensor (Port * p, Byte a) : port(p), address(a) { state = OFF; }
+    const char * id;
+    Sensor (Port * p, Byte a) : port(p), address(a) { response[0] = a; state = OFF; command = NONE; }
+    void setId(const char * i) { id = i; }
     void parseCommand();
     void stateMachine();
+    void setResponse(const char * sequence) { strcpy((char *)&response[1], sequence); }
     void sendResponse();
 };
 
 // Sensor members
 void Sensor::sendResponse() {
-    response[0] = address;
-    response[1] = CR;
-    response[2] = LF;
-    port->sendData(response, 3);
+    Byte ending[2] = {CR, LF};
+
+    port->sendData(response, strlen((char *)response));
+    port->sendData(ending, 2);
 }
 
 void Sensor::parseCommand() {
     if (port->gotRx() == false)
 		return;
 
-    switch(port->getRx()) {
-	case '!':
-        setTimeout(9 TO_MSECS, &sto);
-        state = RESPONSE;
+    Byte c = port->getRx();
+
+    switch(command) {
+    case NONE:
+        switch(c) {
+        case 'I':
+            setResponse(id);
+            break;
+        case 'R':
+            command = CONTINUOUS;
+            break;
+        case '!':
+            setTimeout(9 TO_MSECS, &sto);
+            state = RESPONSE;
+            break;
+        default:
+            state = OFF;
+            break;
+        }
         break;
-	default:
-		state = OFF;
-		break;
-	}
+    case CONTINUOUS:
+        c = c - '0';
+        if (c < 10)
+            sprintf((char *)&response[1], "%+04.2f", measurement[c]);
+        else
+            state = OFF;
+        command = NONE;
+        break;
+    }
 }
 
 void Sensor::stateMachine()
@@ -137,8 +167,10 @@ void Sensor::stateMachine()
 		if (port->portPower()) {
 			port->clearPortBreak();
             port->emptyRx();
+            response[1] = 0;
             state = BREAK;
 		}
+        break;
 	case BREAK:
 		if (port->portBreak()) {
 			port->clearPortBreak();
@@ -147,11 +179,11 @@ void Sensor::stateMachine()
         } else if (port->gotRx())
             port->getRx();
         break;
-        break;
 	case MARK:
         if (checkTimeout(&sto)) {
             setTimeout(100 TO_MSECS, &sto);
 			state = ADDRESS;
+            command = NONE;
 		}
 		else if (port->portBreak())
 			state = BREAK;
@@ -176,6 +208,7 @@ void Sensor::stateMachine()
 		break;
 	case RESPONSE:
         if (checkTimeout(&sto)) {
+
             sendResponse();
 			state = OFF;
 		}
@@ -185,16 +218,16 @@ void Sensor::stateMachine()
 
 class Device {
     Port * port;
-    Byte command[38];
     Timeout markTo;
     enum { SEND_BREAK, WAIT_MARK, SEND_COMMAND } state;
 
 public:
+    Byte command[38];
     Byte address;
-    Device (Port * p, Byte a) : port(p) { address = a; state = SEND_BREAK; }
+    Device (Port * p, Byte a) : port(p), address(a) { command[0] = a; state = SEND_BREAK; }
+    void setCommand(const char * sequence) { strcpy((char *)&command[1], sequence); }
     bool sendCommand();
     void getResponse();
-    void setCommand(const char * sequence) { command[0] = address; strcpy((char *)&command[1], sequence); }
 };
 
 // members
@@ -209,17 +242,27 @@ bool Device:: sendCommand() {
         if (checkTimeout(&markTo))
             state = SEND_COMMAND;
         break;
-    case SEND_COMMAND:
-        port->sendData(command, 2);
+    case SEND_COMMAND: {
+        Byte ending[1] = {'!'};
+
+        port->sendData(command, strlen((char *)command));
+        port->sendData(ending, 1);
+        command[1] = 0;
         state = SEND_BREAK;
         return true;
+    }
     }
     return false;
 }
 
 void Device::getResponse() {
-    if (port->gotRx())
-        print("<"), printnHex(2, port->getRx()), print(">");
+    if (port->gotRx()) {
+        Byte c = port->getRx();
+        if (c < ' ')
+            print("<"), printnHex(2, c), print(">");
+        else
+            printChar(c);
+    }
 }
 
 // Declare ports
@@ -278,22 +321,34 @@ void ackCmd() {
     device1SendCommand();
 }
 
+void idCmd() {
+    device1.setCommand("I!");
+    device1SendCommand();
+}
+
+void getMeasurement() { // ( n )
+    char r[3] = {'R', (char)('0'+ret), 0};
+
+    device1.setCommand(r);
+    device1SendCommand(); // make this part of the machine; check for command and send it if its there and then zero it.
+}
+
 void ackRsp() {
     sensor1.sendResponse();
 }
 
 void sensorAddress() { // ( a s )
     Byte s = (Byte)ret;
-    Byte a = (Byte)ret;
+    Byte a = (Byte)(ret+'0');
 
     switch(s) {
-    case 1: sensor1.address = a; break;
-    case 2: sensor2.address = a; break;
+    case 1: sensor1.response[0] = sensor1.address = a; break;
+    case 2: sensor2.response[0] = sensor2.address = a; break;
     }
 }
 
 void deviceAddress() { // ( a )
-    device1.address = (Byte)ret;
+    device1.address = device1.command[0] = (Byte)(ret+'0');
 }
 
 void sendPort1() { // ( c )
@@ -314,12 +369,29 @@ void sendPort4() { // ( c )
     port4.sendData(&data, 1);
 }
 
+void setMonitor() { // ( b )
+    monitor = (bool)ret;
+}
+
+void makeMeasurement() { // ( f n s )
+    Byte s = (Byte)ret;
+    Byte n = (Byte)ret;
+    float f = *(float *)sp++;
+
+    switch(s) {
+    case 1: sensor1.measurement[n] = f; break;
+    case 2: sensor2.measurement[n] = f; break;
+    }
+}
+
 // init
 void initSdi12()
 {
     port1.init();
     port2.init();
     port4.init();
+    sensor1.setId("13CAMPBELLCS225 1.0 SN:01012");
+    sensor2.setId("13CAMPBELLCS230 1.0 SN:01000");
     activateOnce(sensor1Machine);
     activateOnce(sensor2Machine);
     activateOnce(deviceResponse);

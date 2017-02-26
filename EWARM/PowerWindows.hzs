@@ -89,7 +89,7 @@
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../hal.c" y="23" path="../hal.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/blinkBlink.c" y="75" path="../Timbre/blinkBlink.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/tim.c" y="52" path="../Src/tim.c" left="0" selected="0" name="unnamed" top="33" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="11" debugPath="../Src/stm32f4xx_it.c" y="244" path="../Src/stm32f4xx_it.c" left="0" selected="0" name="unnamed" top="189" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/stm32f4xx_it.c" y="69" path="../Src/stm32f4xx_it.c" left="0" selected="0" name="unnamed" top="46" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" y="329" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal.c" left="0" selected="0" name="unnamed" top="302" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Timbre/timestamp.c" y="28" path="../Timbre/timestamp.c" left="0" selected="0" name="unnamed" top="9" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="1" debugPath="../Src/usart.c" y="60" path="../Src/usart.c" left="0" selected="0" name="unnamed" top="57" />
@@ -126,11 +126,12 @@
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="13" debugPath="../sdi12.c" y="8" path="../sdi12.c" left="0" selected="0" name="unnamed" top="78" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="3" debugPath="../MiniM4/initApp.c" y="27" path="../MiniM4/initApp.c" left="0" selected="0" name="unnamed" top="0" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c" y="394" path="../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_gpio.c" left="0" selected="0" name="unnamed" top="376" />
-  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="1" debugPath="../sdi12.cpp" y="298" path="../sdi12.cpp" left="0" selected="0" name="unnamed" top="264" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../sdi12.cpp" y="225" path="../sdi12.cpp" left="0" selected="0" name="unnamed" top="207" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/usbd_cdc_if.c" y="266" path="../Src/usbd_cdc_if.c" left="0" selected="0" name="unnamed" top="248" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c" y="828" path="../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c" left="0" selected="0" name="unnamed" top="810" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../Src/usbd_conf.c" y="687" path="../Src/usbd_conf.c" left="0" selected="0" name="unnamed" top="669" />
   <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="9" debugPath="../usbSfp.c" y="38" path="../usbSfp.c" left="0" selected="0" name="unnamed" top="2" />
+  <SessionOpenFile useTextEdit="1" useBinaryEdit="0" codecName="Default" x="0" debugPath="../../../../Library/Containers/com.apple.mail/Data/Library/Mail Downloads/5F07FF16-9AA0-4D23-9422-CEA75D7E69FF/SwitchSensors.txt" y="0" path="../../../../Library/Containers/com.apple.mail/Data/Library/Mail Downloads/5F07FF16-9AA0-4D23-9422-CEA75D7E69FF/SwitchSensors.txt" left="0" selected="0" name="unnamed" top="0" />
  </Files>
  <ARMCrossStudioWindow activeProject="PowerWindows" autoConnectTarget="ST-LINK/V2" debugSearchFileMap="" fileDialogInitialDirectory="/Users/robchapm/TimbreWorks/Projext/PowerWindows" fileDialogDefaultFilter="*.c" autoConnectCapabilities="266111" debugSearchPath="" buildConfiguration="THUMB Debug" />
 </session>

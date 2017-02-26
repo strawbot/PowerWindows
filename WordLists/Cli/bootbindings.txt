@@ -1,6 +1,7 @@
 // Names and function binding for words, constants and immediates
 
 Include ../clibindings.txt
+Include ../floatwords.txt
 
 Words
 	lm listm				// list machines
@@ -21,10 +22,14 @@ Words
 //	khz kilohertz // ( n ) set frequency in Khz for DAC 1 output
 	
 	ackcmd ackCmd // send ack active command
+	idcmd idCmd // send request for sensor id
 	ackrsp ackRsp // send ack active reponse 
 	sa sensorAddress // ( a s ) set sensor s address to a
 	da deviceAddress // ( a ) set device to address a
 	sp1 sendPort1 // ( d )  send data byte out port 1
 	sp2 sendPort2 // ( d )  send data byte out port 2
 	sp4 sendPort4 // ( d )  send data byte out port 4
+	sm setMonitor // ( f )  turn monitoring on 1 or off 0 - default on
+	mm makeMeasurement // ( f n s ) set measurement n of sensor s to float f
+	gm getMeasurement // ( n ) get measurement n
 End

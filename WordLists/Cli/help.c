@@ -135,6 +135,9 @@ void help(void) {
     printif("s!   ( h a - ) store next into memory using top as address (16 bit)\n");
     printif("s@   ( a - h ) return contents of memory using top stack item as the address (16 bit)\n");
     printif("sa   ( a s ) set sensor s address to a\n");
+    printif("sd1   ( b ) set sense detect connect to 1 on, 0 off\n");
+    printif("sd2   ( b ) set sense detect connect to 1 on, 0 off\n");
+    printif("sensors   list all sensors and details\n");
     printif("shift   ( n m - p ) shift n by m bit left for minus and right for positive\n");
     printif("sign   ( n - ) prepend sign to number sequence if n is negative\n");
     printif("sm   ( f )  turn monitoring on 1 or off 0 - default on\n");

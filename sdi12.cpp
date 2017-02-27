@@ -384,6 +384,37 @@ void makeMeasurement() { // ( f n s )
     }
 }
 
+void printPin(GPIO_TypeDef* port, Short pin) {
+    if (HAL_GPIO_ReadPin(port, pin)) print("open"); else print("closed");
+}
+
+void listSensors() {
+    Sensor *sensors[] = {&sensor1, &sensor2};
+
+    for (Byte i=0; i<elementsof(sensors); i++) {
+        print("\nSensor"), printDec0(i+1);
+        print("\n address: "), printChar(sensors[i]->address);
+        print("\n id: "), print(sensors[i]->id);
+        print("\n measurements:");
+        for (Byte j=0; j<10; j++)
+            print("\n  "), printDec(j), print("= "), printFloat(sensors[i]->measurement[j],2);
+    }
+    print("\nPort1 detect: "), printPin(DetectOut1_GPIO_Port, DetectOut1_Pin);
+    print("\nPort2 detect: "), printPin(DetectOut2_GPIO_Port, DetectOut2_Pin);
+    print("\nDevice detect 1: "), printPin(DetectIn1_GPIO_Port, DetectIn1_Pin);
+    print("\nDevice detect 2: "), printPin(DetectIn2_GPIO_Port, DetectIn2_Pin);
+}
+
+void senseDetect1() { // ( b )
+    GPIO_PinState state = ret ? GPIO_PIN_SET : GPIO_PIN_RESET;
+    HAL_GPIO_WritePin(DetectOut1_GPIO_Port, DetectOut1_Pin, state);
+}
+
+void senseDetect2() { // ( b )
+    GPIO_PinState state = ret ? GPIO_PIN_SET : GPIO_PIN_RESET;
+    HAL_GPIO_WritePin(DetectOut2_GPIO_Port, DetectOut2_Pin, state);
+}
+
 // init
 void initSdi12()
 {

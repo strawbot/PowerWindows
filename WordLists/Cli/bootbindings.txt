@@ -32,4 +32,7 @@ Words
 	sm setMonitor // ( f )  turn monitoring on 1 or off 0 - default on
 	mm makeMeasurement // ( f n s ) set measurement n of sensor s to float f
 	gm getMeasurement // ( n ) get measurement n
+	sensors listSensors // list all sensors and details
+	sd1 senseDetect1 // ( b ) set sense detect connect to 1 on, 0 off
+	sd2 senseDetect2 // ( b ) set sense detect connect to 1 on, 0 off
 End

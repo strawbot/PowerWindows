@@ -53,8 +53,6 @@
 
 #define RedLed_Pin GPIO_PIN_13
 #define RedLed_GPIO_Port GPIOC
-#define PORT2_12V_Pin GPIO_PIN_0
-#define PORT2_12V_GPIO_Port GPIOC
 #define SDI12_TX2_Pin GPIO_PIN_0
 #define SDI12_TX2_GPIO_Port GPIOA
 #define SDI12_RX2_Pin GPIO_PIN_1
@@ -63,12 +61,14 @@
 #define SDI12_TX3_GPIO_Port GPIOA
 #define SDI12_RX3_Pin GPIO_PIN_3
 #define SDI12_RX3_GPIO_Port GPIOA
-#define PORT1_12V_Pin GPIO_PIN_11
-#define PORT1_12V_GPIO_Port GPIOB
-#define PORT2_SENSE_Pin GPIO_PIN_12
-#define PORT2_SENSE_GPIO_Port GPIOB
-#define PORT1_SENSE_Pin GPIO_PIN_15
-#define PORT1_SENSE_GPIO_Port GPIOB
+#define DetectIn2_Pin GPIO_PIN_10
+#define DetectIn2_GPIO_Port GPIOB
+#define DetectIn1_Pin GPIO_PIN_11
+#define DetectIn1_GPIO_Port GPIOB
+#define DetectOut2_Pin GPIO_PIN_14
+#define DetectOut2_GPIO_Port GPIOB
+#define DetectOut1_Pin GPIO_PIN_15
+#define DetectOut1_GPIO_Port GPIOB
 #define YellowLed_Pin GPIO_PIN_12
 #define YellowLed_GPIO_Port GPIOC
 #define SDI12_TX1_Pin GPIO_PIN_6

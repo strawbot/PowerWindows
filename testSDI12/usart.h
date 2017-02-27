@@ -30,13 +30,19 @@ typedef struct {
 #define HAL_UART_Transmit(p, a, l, t) { (void)(p); (void)(a); (void)(l); (void)(t); }
 #define HAL_LIN_SendBreak(port) (void)port
 
-#define PORT1_SENSE_GPIO_Port (GPIO_TypeDef *)nullptr
-#define PORT1_SENSE_Pin 0
-#define PORT1_12V_GPIO_Port (GPIO_TypeDef *)nullptr
-#define PORT1_12V_Pin 1
-#define PORT2_SENSE_GPIO_Port (GPIO_TypeDef *)nullptr
-#define PORT2_SENSE_Pin 2
-#define PORT2_12V_GPIO_Port (GPIO_TypeDef *)nullptr
-#define PORT2_12V_Pin 3
+#define DetectOut1_GPIO_Port (GPIO_TypeDef *)nullptr
+#define DetectOut1_Pin 0
+#define DetectOut2_GPIO_Port (GPIO_TypeDef *)nullptr
+#define DetectOut2_Pin 1
+#define DetectIn1_GPIO_Port (GPIO_TypeDef *)nullptr
+#define DetectIn1_Pin 0
+#define DetectIn2_GPIO_Port (GPIO_TypeDef *)nullptr
+#define DetectIn2_Pin 1
+#define GPIO_PIN_RESET 0
+#define GPIO_PIN_SET 1
+#define GPIO_PinState bool
+
+#define HAL_GPIO_ReadPin(p, n) (p+n)
+#define HAL_GPIO_WritePin(p, n, q) (void)q
 
 #endif // USART_H

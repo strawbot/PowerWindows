@@ -1,7 +1,6 @@
 // SDI-12 Protocol  Robert Chapman III  Feb 19, 2017
 
-// port 1 will be the data logger and port 1 will be the sensor
-// should use C++ and make base sensor; then initiate with port, address, profile
+// port 1 and 2 will be the Sensors and port 4 will be the Device
 // allow for multiple sensors per port
 extern "C" {
 #include "timbre.h"
@@ -13,16 +12,18 @@ extern "C" {
 #include <stdio.h>
 }
 
+// external
 void safe_emit(Byte c);
-
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart4;
 
+// funny numbers
 #define CR 13
 #define LF 10
 #define CHAR_TIME 9 // > 8.333ms per character
 
+// debug
 bool monitor = false;
 
 void printxx(Byte who, Byte i, Byte x) {
@@ -38,17 +39,13 @@ class Port {
     Byte number;
 
 public:
-	
-    Port (UART_HandleTypeDef * u) : uart(u) { }
+    Port (UART_HandleTypeDef * u) : uart(u) { number = 0; }
     Port (UART_HandleTypeDef * u, Byte n) : uart(u), number(n) { }
 
-    bool portPower () { return true; } // maybe these two should be part of sensor since they will also be different for device
-    void portSense(bool present);
-
+    void emptyRx () { zerobq(rxq); }
 	void pushRx (Byte rx) { pushbq(rx, rxq); }
     bool gotRx () { return qbq(rxq) != 0;}
     Byte getRx () { Byte r = pullbq(rxq); printxx('R', number, r); return r; }
-    void emptyRx () { zerobq(rxq); }
 
     void sendBreak () { HAL_LIN_SendBreak(uart); }
 	bool portBreak () { return qbq(breaks) != 0; }
@@ -56,22 +53,22 @@ public:
 	void clearPortBreak () { zerobq(breaks); }
 
     void sendData (Byte * data, Byte length);
+
 	void init() {
 		SET_BIT(uart->Instance->CR1, USART_CR1_RXNEIE);
         SET_BIT(uart->Instance->CR2, USART_CR2_LINEN);
         SET_BIT(uart->Instance->CR2, USART_CR2_LBDIE);
     }
 
-
 public:
     void portInterrupt ();
 };
 
 // Port members
-void Port::sendData (Byte * data, Byte length)
-{
+void Port::sendData (Byte * data, Byte length) {
     Byte * d = data, l = length;
-    while (l--) printxx('T', number, *d++);
+    
+	while (l--) printxx('T', number, *d++);
 
     HAL_UART_Transmit(uart, data, length, length * 2 * CHAR_TIME);
 }
@@ -92,9 +89,9 @@ void Port::portInterrupt () {
 }
 
 // Sensor class: sensors are given an address and bound to a specific port
-// need to consider the case of multiple sensors on the same port. Address will determine who talks. If ?! is sent, then they all talk
-// but their values will all have to be combined first. So we will need a port driver that can do that. So no longer do we call HAL directly
-// but instead through the port.
+// need to consider the case of multiple sensors on the same port. Address will determine who talks.
+// If ?! is sent, then they all talk but their values will all have to be combined first. So we will
+// need a port driver that can do that. So no longer do we call HAL directly but instead through the port.
 class Sensor {
     Port * port;
     enum {OFF, BREAK, MARK, ADDRESS, COMMAND, RESPONSE} state;
@@ -106,10 +103,12 @@ public:
     Byte response[45];
     Byte address;
     const char * id;
+
     Sensor (Port * p, Byte a) : port(p), address(a) { response[0] = a; state = OFF; command = NONE; }
+
     void setId(const char * i) { id = i; }
     void parseCommand();
-    void stateMachine();
+    void protocol();
     void setResponse(const char * sequence) { strcpy((char *)&response[1], sequence); }
     void sendResponse();
 };
@@ -157,19 +156,13 @@ void Sensor::parseCommand() {
     }
 }
 
-void Sensor::stateMachine()
-{
-	if (port->portPower() == 0)
-		state = OFF;
-
+void Sensor::protocol() {
 	switch (state) {
 	case OFF:
-		if (port->portPower()) {
-			port->clearPortBreak();
-            port->emptyRx();
-            response[1] = 0;
-            state = BREAK;
-		}
+		port->clearPortBreak();
+		port->emptyRx();
+		response[1] = 0;
+		state = BREAK;
         break;
 	case BREAK:
 		if (port->portBreak()) {
@@ -193,6 +186,7 @@ void Sensor::stateMachine()
 	case ADDRESS:
         if (port->gotRx()) {
             Byte a = port->getRx();
+
 			if (a == address || a == '?')
 				state = COMMAND;
 			else
@@ -208,7 +202,6 @@ void Sensor::stateMachine()
 		break;
 	case RESPONSE:
         if (checkTimeout(&sto)) {
-
             sendResponse();
 			state = OFF;
 		}
@@ -216,6 +209,7 @@ void Sensor::stateMachine()
 	}
 }
 
+// device class - similar to sensors but other side; could factor up a super class with: address, timeout, cmd/rsp buffer, ending
 class Device {
     Port * port;
     Timeout markTo;
@@ -224,7 +218,9 @@ class Device {
 public:
     Byte command[38];
     Byte address;
+
     Device (Port * p, Byte a) : port(p), address(a) { command[0] = a; state = SEND_BREAK; }
+
     void setCommand(const char * sequence) { strcpy((char *)&command[1], sequence); }
     bool sendCommand();
     void getResponse();
@@ -237,7 +233,7 @@ bool Device:: sendCommand() {
         port->sendBreak();
         setTimeout(22 TO_MSECS, &markTo);
         state = WAIT_MARK;
-        break;;
+        break;
     case WAIT_MARK:
         if (checkTimeout(&markTo))
             state = SEND_COMMAND;
@@ -294,15 +290,13 @@ void uart4Interrupt() {
 }
 
 // CLI
-void sensor1Machine()
-{
-    sensor1.stateMachine();
+void sensor1Machine() {
+    sensor1.protocol();
     activate(sensor1Machine);
 }
 
-void sensor2Machine()
-{
-    sensor2.stateMachine();
+void sensor2Machine() {
+    sensor2.protocol();
     activate(sensor2Machine);
 }
 
@@ -317,12 +311,12 @@ void deviceResponse() {
 }
 
 void ackCmd() {
-    device1.setCommand("!");
+    device1.setCommand("");
     device1SendCommand();
 }
 
 void idCmd() {
-    device1.setCommand("I!");
+    device1.setCommand("I");
     device1SendCommand();
 }
 
@@ -337,14 +331,19 @@ void ackRsp() {
     sensor1.sendResponse();
 }
 
-void sensorAddress() { // ( a s )
+Sensor * pickSensor() { // ( s )
     Byte s = (Byte)ret;
-    Byte a = (Byte)(ret+'0');
-
     switch(s) {
-    case 1: sensor1.response[0] = sensor1.address = a; break;
-    case 2: sensor2.response[0] = sensor2.address = a; break;
+    case 1: return &sensor1;
+    case 2: return &sensor2;
     }
+	return NULL;
+}
+
+void sensorAddress() { // ( a s )
+    Sensor * s = pickSensor();
+
+	s->response[0] = s->address = (Byte)(ret+'0');
 }
 
 void deviceAddress() { // ( a )
@@ -374,14 +373,11 @@ void setMonitor() { // ( b )
 }
 
 void makeMeasurement() { // ( f n s )
-    Byte s = (Byte)ret;
+    Sensor * s = pickSensor();
     Byte n = (Byte)ret;
     float f = *(float *)sp++;
 
-    switch(s) {
-    case 1: sensor1.measurement[n] = f; break;
-    case 2: sensor2.measurement[n] = f; break;
-    }
+    s->measurement[n] = f
 }
 
 void printPin(GPIO_TypeDef* port, Short pin) {
@@ -415,9 +411,15 @@ void senseDetect2() { // ( b )
     HAL_GPIO_WritePin(DetectOut2_GPIO_Port, DetectOut2_Pin, state);
 }
 
+void setId() { // ( i n )
+	Sensor * s = pickSensor();
+	char * i = (char *)ret;
+	
+	s->setId(i);
+}
+	
 // init
-void initSdi12()
-{
+void initSdi12() {
     port1.init();
     port2.init();
     port4.init();
